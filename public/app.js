@@ -6,7 +6,46 @@ $.getJSON("/articles", function(data) {
     $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
   }
 });
+$(document).on("click", "#scrape-new", function() {
+  app.get("/scrape", function(req, res) {
+    // First, we grab the body of the html with axios
+    axios.get("https://old.reddit.com/r/buildapcsales/").then(function(response) {
+      // Then, we load that into cheerio and save it to $ for a shorthand selector
+      var $ = cheerio.load(response.data);
 
+      // Now, we grab every p within an title tag, and do the following:
+      $("div.thing").each(function(i, element) {
+        // Save an empty result object
+        var result = {};
+
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this)
+          .find("a.title")
+          .text();
+        result.link = $(this)
+          .find("a.title")
+          .attr("href");
+        result.image = $(this)
+          .find("a.thumbnail>img")
+          .attr("src");
+
+        // Create a new Article using the `result` object built from scraping
+        db.Article.create(result)
+          .then(function(dbArticle) {
+            // View the added result in the console
+            console.log(dbArticle);
+          })
+          .catch(function(err) {
+            // If an error occurred, log it
+            console.log(err);
+          });
+      });
+
+      // Send a message to the client
+      res.send("Scrape Complete");
+    });
+  });
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
