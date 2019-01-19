@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html lang="en-us">
+
   <head>
     <meta charset="UTF-8">
-    <title>Scraping With Mongoose</title>
-    <style>
-      body { background-color: #F2F6D0 }
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #FCF5C7;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/css/style.css" type="text/css">
+  <title>PC DEALS DOT COM</title>
   </head>
+
+
   <body>
-    <div id="wrapper">
-      <h1>Note Scraper</h1>
-      <h2><i>If you can do this...the homework should be no problem.</i></h2>
-      <div id="articles"></div>
-      <div id="notes"></div>
-    </div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <a class="navbar-brand" href="/">PC DEALS DOT COM</a>
+          <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home
+                  <span class="sr-only">(current)</span>
+                </a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/saved">Saved Parts</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-success scrape-new">FIND NEW DEALS!</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-danger clear">CLEAR DA DEALS DUDE!</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <div class="jumbotron text-center">
+          <div class="overlay">
+          </div>
+          <div class="background-image">
+          </div>
+          <div class="caption">
+            <h1>THE PC PART SUPERSTORE</h1>
+            <p class="small">brought to you by PCDOTCOM</p>
+          </div>
+        </div>
+        
+        <div class="container-fluid article-container">
+          <div data-_id="5c42661653edc74994067123" class="card">
+            <div class="card-header">
+              <h3>
+                <a class="article-link" target="_blank" rel="noopener noreferrer" href="https://www.newegg.com/Product/Product.aspx?item=N82E16824011245">[Monitor] Acer 24-inch KG241P Freesync 1920x1080 144Hz Refresh Rate 1ms $149.99 ($169.99 - $20) PROMO Code: EMCTUUD54</a>
+                <a class="btn btn-success save">Save Deal</a>
+              </h3>
+            </div>
+            <!-- <div class="card-body"></div> -->
+          </div>
+           </div>
+           <div id="wrapper">
+              <div id="articles"></div>
+              <div id="notes"></div>
+          </div>
+        <footer class="footer">
+          <div class="container">
+          </div>
+        </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
