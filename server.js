@@ -11,7 +11,7 @@ const cheerio = require("cheerio");
 // Require all models
 const db = require("./models");
 
-const PORT = 3000;
+var PORT = 8080;
 
 // Initialize Express
 const app = express();
@@ -37,52 +37,53 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 // mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
 
-mongoose.connect(MONGODB_URI);
+
 // Routes
 
 
 
-// A GET route for scraping the website
-app.get("/scrape", function(req, res) {
-  // First, we grab the body of the html with axios
-  axios.get("https://old.reddit.com/r/buildapcsales/").then(function(response) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(response.data);
+  // A GET route for scraping the website
+  app.get("/scrape", function(req, res) {
+    // First, we grab the body of the html with axios
+    axios.get("https://old.reddit.com/r/buildapcsales/").then(function(response) {
+      // Then, we load that into cheerio and save it to $ for a shorthand selector
+      var $ = cheerio.load(response.data);
 
-    // Now, we grab every p within an title tag, and do the following:
-    $("div.thing").each(function(i, element) {
-      // Save an empty result object
-      var result = {};
+      // Now, we grab every p within an title tag, and do the following:
+      $("div.thing").each(function(i, element) {
+        // Save an empty result object
+        var result = {};
 
-      // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .find("a.title")
-        .text();
-      result.link = $(this)
-        .find("a.title")
-        .attr("href");
-      result.image = $(this)
-        .find("a.thumbnail>img")
-        .attr("src");
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this)
+          .find("a.title")
+          .text();
+        result.link = $(this)
+          .find("a.title")
+          .attr("href");
+        result.image = $(this)
+          .find("a.thumbnail>img")
+          .attr("src");
 
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function(dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-        })
-        .catch(function(err) {
-          // If an error occurred, log it
-          console.log(err);
-        });
+        // Create a new Article using the `result` object built from scraping
+        db.Article.create(result)
+          .then(function(dbArticle) {
+            // View the added result in the console
+            console.log(dbArticle);
+          })
+          .catch(function(err) {
+            // If an error occurred, log it
+            console.log(err);
+          });
+      });
+
+      // Send a message to the client
+      res.send("Scrape Complete");
     });
-
-    // Send a message to the client
-    res.send("Scrape Complete");
   });
-});
+
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
@@ -135,6 +136,9 @@ app.post("/articles/:id", function(req, res) {
 });
 
 // Start the server
-app.listen(PORT, function() {
+app.listen(process.env.PORT || PORT, function() {
   console.log("App running on port " + PORT + "!");
 });
+// app.listen(PORT, function() {
+//   console.log("App running on port " + PORT + "!");
+// });
